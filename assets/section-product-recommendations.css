@@ -1,0 +1,92 @@
+.product-recommendations {
+  display: block;
+  overflow: hidden;
+}
+.product-recommendations__list {
+  margin-top: 2.4rem;
+  position: relative;
+}
+@media (min-width: 1200px) {
+  .product-recommendations__list {
+    margin-top: 4.8rem;
+  }
+}
+@media (min-width: 1360px) {
+  .product-recommendations__list {
+    margin-top: 5.6rem;
+  }
+}
+.product-recommendations__list .swiper-wrapper {
+  box-sizing: border-box;
+}
+.product-recommendations__list:not(.swiper-initialized) .product-recommendations__product.swiper-slide {
+  margin-right: 8px;
+  width: 100%;
+}
+@media (min-width: 576px) {
+  .product-recommendations__list:not(.swiper-initialized) .product-recommendations__product.swiper-slide {
+    width: calc((100% - 8px) / 2);
+  }
+}
+@media (min-width: 750px) {
+  .product-recommendations__list:not(.swiper-initialized) .product-recommendations__product.swiper-slide {
+    margin-right: 24px;
+    width: calc((100% - 48px) / 3);
+  }
+}
+.product-recommendations__slider-nav {
+  position: absolute;
+  top: 44%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 0.8rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+@media (min-width: 1200px) {
+  .product-recommendations__slider-nav {
+    left: -3rem;
+    right: -3rem;
+    padding: 0;
+  }
+}
+.product-recommendations__slider-nav .swiper-button-prev,
+.product-recommendations__slider-nav .swiper-button-next {
+  width: 4.4rem;
+  height: 4.4rem;
+  pointer-events: all;
+}
+@media (min-width: 1200px) {
+  .product-recommendations__slider-nav .swiper-button-prev,
+  .product-recommendations__slider-nav .swiper-button-next {
+    width: 5.2rem;
+    height: 5.2rem;
+  }
+}
+.product-recommendations__slider-nav .swiper-button-prev.swiper-button-disabled,
+.product-recommendations__slider-nav .swiper-button-next.swiper-button-disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+.product-recommendations.complementary-products {
+  overflow: visible;
+}
+.product-recommendations__item {
+  position: relative;
+}
+.product-recommendations__item--border {
+  padding-top: 4rem;
+  border-top: 0.1rem solid rgb(var(--color-border));
+}
+.product-recommendations__heading {
+  margin: 0;
+}
+.product-recommendations .grid__item {
+  padding-bottom: 0;
+}
+.product-recommendations .card-wrapper {
+  background-color: transparent !important;
+}
