@@ -1,6 +1,11 @@
 {% style %}
   {% for scheme in settings.color_schemes -%}
   {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+	.color-{{ scheme.id }} {
+	--color-heading-h1: {{ scheme.colors_heading_h1 | default: scheme.colors_text_title }};
+	--color-heading-h2: {{ scheme.colors_heading_h2 | default: scheme.colors_text_title }};
+	--color-heading-h3-6: {{ scheme.colors_heading_h3_6 | default: scheme.colors_text_title }};
+	}	
   [data-scheme=dark] .color-{{ scheme.id }} {
   	--color-background: 31, 31, 31;
   	--color-overlay: 0, 0, 0;
