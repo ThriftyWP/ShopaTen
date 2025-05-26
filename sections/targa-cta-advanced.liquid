@@ -232,7 +232,21 @@
       or section.settings.text_information != blank
       or section.settings.show_view_all
     -%}
-      <div class="image-banner__wrapper image-banner__wrapper--{{ section.settings.text_width }} {% if section.settings.full_width %}container{% else %}{% endif %}">
+    <div class="image-banner__wrapper image-banner__wrapper--{{ section.settings.text_width }} {% if section.settings.full_width %}container{% endif %}" style="margin-inline: auto;">
+      <style>
+        #shopify-section-{{ section.id }} .image-banner__heading,
+        #shopify-section-{{ section.id }} .image-banner__information {
+          max-width: {{ section.settings.content_max_width }}%;
+        }
+    
+        @media (max-width: 749px) {
+          #shopify-section-{{ section.id }} .image-banner__heading,
+          #shopify-section-{{ section.id }} .image-banner__information {
+            max-width: {{ section.settings.content_max_width_mobile }}% !important;
+          }
+        }
+      </style>    
+  
         {%- if section.settings.icon != 'none' -%}
           <div
             class="
@@ -1132,6 +1146,24 @@
       "default": "small",
       "label": "t:sections.image-banner.settings.text_width.label"
     },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Max width (%) on desktop",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_max_width_mobile",
+      "label": "Max width (%) on mobile",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 85
+    },    
     {
       "type": "header",
       "content": "t:sections.image-banner.settings.header__1.content"

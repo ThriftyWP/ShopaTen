@@ -81,9 +81,6 @@ dir="{% render 'direction' %}"
         :root,
         {%- endif %}
         [data-scheme=light] .color-{{ scheme.id }} {
-          --colors-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
-          --colors-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
-          --colors-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
           --color-background: {{ scheme.settings.colors_background_1.red }},{{ scheme.settings.colors_background_1.green }},{{ scheme.settings.colors_background_1.blue }};
           --color-background-secondary: {{ scheme.settings.colors_background_2.red }},{{ scheme.settings.colors_background_2.green }},{{ scheme.settings.colors_background_2.blue }};
           {% if scheme.settings.background_gradient != empty %}
@@ -91,9 +88,6 @@ dir="{% render 'direction' %}"
           {% else %}
             --gradient-background: {{ scheme.settings.colors_background_1 }};
           {% endif %}
-          --color-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
-          --color-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
-          --color-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
           --color-foreground: {{ scheme.settings.colors_text.red }}, {{ scheme.settings.colors_text.green }}, {{ scheme.settings.colors_text.blue }};
           --color-foreground-secondary: {{ scheme.settings.colors_secondary_text.red }}, {{ scheme.settings.colors_secondary_text.green }}, {{ scheme.settings.colors_secondary_text.blue }};
           --color-foreground-title: {{ scheme.settings.colors_text_title.red }}, {{ scheme.settings.colors_text_title.green }}, {{ scheme.settings.colors_text_title.blue }};
@@ -131,9 +125,6 @@ dir="{% render 'direction' %}"
           :root,
           {%- endif %}
           [data-scheme=auto] .color-{{ scheme.id }} {
-            --colors-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
-            --colors-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
-            --colors-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
             --color-background: {{ scheme.settings.colors_background_1.red }},{{ scheme.settings.colors_background_1.green }},{{ scheme.settings.colors_background_1.blue }};
             --color-background-secondary: {{ scheme.settings.colors_background_2.red }},{{ scheme.settings.colors_background_2.green }},{{ scheme.settings.colors_background_2.blue }};
             {% if scheme.settings.background_gradient != empty %}
@@ -141,9 +132,6 @@ dir="{% render 'direction' %}"
             {% else %}
               --gradient-background: {{ scheme.settings.colors_background_1 }};
             {% endif %}
-            --color-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
-            --color-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
-            --color-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
             --color-foreground: {{ scheme.settings.colors_text.red }}, {{ scheme.settings.colors_text.green }}, {{ scheme.settings.colors_text.blue }};
             --color-foreground-secondary: {{ scheme.settings.colors_secondary_text.red }}, {{ scheme.settings.colors_secondary_text.green }}, {{ scheme.settings.colors_secondary_text.blue }};
             --color-foreground-title: {{ scheme.settings.colors_text_title.red }}, {{ scheme.settings.colors_text_title.green }}, {{ scheme.settings.colors_text_title.blue }};
@@ -326,14 +314,6 @@ dir="{% render 'direction' %}"
           font-size: calc(var(--font-body-scale) * 1.4rem);
         }
       }
-    :root {
-      {% for scheme in settings.color_schemes %}
-        {% assign scheme_classes = scheme_classes | append: '.color-' | append: scheme.id %}
-        --color-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
-        --color-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
-        --color-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
-      {% endfor %}
-    }
     {% endstyle %}
     {% render 'color-scheme-vars' %}
     {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}

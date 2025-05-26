@@ -1,0 +1,14 @@
+{% comment %} Inject heading color tokens from the color scheme {% endcomment %}
+{% for scheme in settings.color_schemes %}
+    {% assign scheme_classes = scheme_classes | append: '.color-' | append: scheme.id %}
+    .color-{{ scheme.id }} {
+    --colors-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
+    --colors-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
+    --colors-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
+}
+    {{ scheme_classes }} {
+      --color-heading-h1: {{ scheme.settings.colors_heading_h1 | default: scheme.colors_text_title }};
+      --color-heading-h2: {{ scheme.settings.colors_heading_h2 | default: scheme.colors_text_title }};
+      --color-heading-h3-6: {{ scheme.settings.colors_heading_h3_6 | default: scheme.colors_text_title }};
+    }
+  {% endfor %}

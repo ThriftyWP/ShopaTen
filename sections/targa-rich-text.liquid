@@ -28,6 +28,13 @@
     max-width: 100%;
     object-fit: contain;
   }
+  .rich-text__custom-liquid {
+    margin-top: 1rem;
+    width: 
+  }
+  .about-contact h5 {
+    margin-bottom: 1rem;
+  }
 {%- endstyle -%}
 
 <div class="rich-text  
@@ -40,7 +47,14 @@
       background-color: {{ section.settings.custom_background_color }};
     {% endif %}
   ">
-  <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding">
+  <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}%; margin-inline: auto;">
+    <style>
+      @media (max-width: 749px) {
+        #shopify-section-{{ section.id }} .rich-text__blocks {
+          max-width: {{ section.settings.content_max_width_mobile }}% !important;
+        }
+      }
+    </style>    
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'subheading' -%}
@@ -84,7 +98,11 @@
               width="100%"
               height="auto"
             >
-          </div>        
+          </div>
+        {%- when 'custom_liquid' -%}
+          <div class="rich-text__custom-liquid body-large" {{ block.shopify_attributes }}>
+            {{ block.settings.custom_liquid }}
+          </div>               
       {%- endcase -%}
     {%- endfor -%}
   </div>
@@ -104,6 +122,24 @@
 			"id": "section_class",
 			"label": "Section Class"
 		},
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content max width (%)",
+      "min": 30,
+      "max": 90,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "content_max_width_mobile",
+      "label": "Content max width (mobile, px)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 90
+    },    
     {
       "type": "color_scheme",
       "id": "color_scheme",
@@ -438,7 +474,22 @@
           ]
         }
       ]
-    }    
+    }, 
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid"
+        }, 
+        {  "type": "text",  
+            "id": "width",
+            "label": "Custom Width"
+        }
+      ]
+    }        
   ],
   "presets": [
     {

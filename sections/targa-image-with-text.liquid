@@ -102,7 +102,7 @@
     {% endstyle %}
 {% endif %}
 
-<div class="image-with-text color-{{ section.settings.color_scheme }} background section-{{ section.id }}-padding {{  section.settings.section_class }}">
+<div class="image-with-text color-{{ section.settings.color_scheme }} background section-{{ section.id }}-padding {{  section.settings.section_class }} ">
   <div class="container">
     {% render 'section-text', section: section, class: 'image-with-text', text_align: section.settings.text_align, heading_level: section.settings.heading_level %}
 
