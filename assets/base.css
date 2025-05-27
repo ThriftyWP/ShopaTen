@@ -6887,3 +6887,9 @@ h2 {
 h3, h4, h5, h6 {
   color: var(--color-heading-h3-6, var(--color-foreground-title)) !important;
 }
+.prod-includes p:not(:last-child) {
+  border-bottom: 2px solid #D3E1EE;
+}
+.product__main nav.breadcrumb.breadcrumb__desktop {
+  display: none;
+}

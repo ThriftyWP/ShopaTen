@@ -45,8 +45,9 @@
   style="
     {% if section.settings.custom_background_color != blank %}
       background-color: {{ section.settings.custom_background_color }};
-    {% endif %}
-  ">
+    {% endif %}"
+  id ="{{ section.settings.section_id }}"
+>
   <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}%; margin-inline: auto;">
     <style>
       @media (max-width: 749px) {
@@ -72,7 +73,7 @@
             {{ block.settings.heading }}
           </{{ block.settings.heading_level }}>
         {%- when 'text' -%}
-          <div class="rich-text__text" {{ block.shopify_attributes }}>
+          <div class="rich-text__text" {{ block.shopify_attributes }} style="max-width: {{ section.settings.content_max_width }}%;">
             {{ block.settings.text }}
           </div>
         {%- when 'button' -%}
@@ -100,7 +101,7 @@
             >
           </div>
         {%- when 'custom_liquid' -%}
-          <div class="rich-text__custom-liquid body-large" {{ block.shopify_attributes }}>
+          <div class="rich-text__custom-liquid body-large" {{ block.shopify_attributes }} style="max-width: {{ section.settings.content_max_width }}%;">
             {{ block.settings.custom_liquid }}
           </div>               
       {%- endcase -%}
@@ -121,6 +122,11 @@
 			"type": "text",
 			"id": "section_class",
 			"label": "Section Class"
+		},
+    {
+			"type": "text",
+			"id": "section_id",
+			"label": "Section ID"
 		},
     {
       "type": "range",
@@ -483,10 +489,6 @@
           "type": "liquid",
           "id": "custom_liquid",
           "label": "Custom Liquid"
-        }, 
-        {  "type": "text",  
-            "id": "width",
-            "label": "Custom Width"
         }
       ]
     }        
