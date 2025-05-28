@@ -1,12 +1,29 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 {% style %}
+    {% if section.settings.text_information != blank %}
+      .description-inline .cta-banner__content--inline .cta-banner__text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+      }
+      @media (max-width:749px) {
+        .description-inline .cta-banner__content--inline .cta-banner__text {
+          flex-direction: column;
+      } 
+      }
+      @media (min-width:749px) {
+        .description-inline .cta-banner__content--inline {
+          display: inline-block !important;
+        }
+      }
+    {% endif %} 
     .cta-banner__content--inline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
-    }
-
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+      } 
     .cta-banner__icon {
     flex-shrink: 0;
     }
@@ -57,7 +74,7 @@
         column-gap: 24px;
     }
 
-    {% endstyle %}
+{% endstyle %}
 
 {%- liquid
   if section.settings.image_mobile != blank
@@ -175,7 +192,7 @@
     }
 {% endstyle %}
 
-<div class="image-banner {% if section.settings.full_width %}{% else %}container{% endif %}">
+<div class="image-banner {% if section.settings.full_width %}{% else %}container{% endif %} {{ section.settings.section_class }}">
   <div
     id="Banner-{{ section.id }}"
     class="banner banner--{{ section.settings.text_align }} {% if section.settings.full_width %}banner--container{% else %}{% endif %} color-{{ section.settings.color_scheme }} background"
@@ -297,6 +314,11 @@
                     {{ section.settings.heading }}
                     </{{ section.settings.heading_level }}>
                 {% endif %}
+                {% if section.settings.text_information != blank %}
+                  <div class="image-banner__text body-large">
+                    {{ section.settings.text_information }}
+                  </div>
+                {% endif %}
             </div>
         </div>
         {% if section.settings.show_view_all or section.settings.show_button_2 %}
@@ -386,6 +408,11 @@
     "templates": ["*"]
   },
   "settings": [
+    {
+			"type": "text",
+			"id": "section_class",
+			"label": "Section Class"
+		},
     {
       "type": "checkbox",
       "id": "full_width",
