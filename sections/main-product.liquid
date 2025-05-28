@@ -951,7 +951,23 @@
               <div class="custom-liquid" {{ block.shopify_attributes }}>
                 {{ block.settings.custom_liquid }}
               </div>
-
+            {%- when 'custom_liquid_2' -%}
+              <div class="custom-liquid" {{ block.shopify_attributes }}>
+                {{ block.settings.custom_liquid_2 }}
+              </div>
+            {%- when 'button' -%}
+              <a
+                {% if block.settings.button_link == blank %}
+                  aria-disabled="true"
+                {% else %}
+                  href="{{ block.settings.button_link }}"
+                {% endif %}
+                class="button button--{{ block.settings.button_style }} focus-inset"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.button_label | escape }}
+                {% render 'icon-button-arrow' %}
+              </a>
             {%- when 'share' -%}
               {%- if block.settings.show_share_facebook
                 or block.settings.show_share_twitter
@@ -2894,6 +2910,56 @@
           "id": "custom_liquid",
           "label": "t:sections.main-product.blocks.custom_liquid.settings.custom_liquid.label",
           "info": "t:sections.main-product.blocks.custom_liquid.settings.custom_liquid.info"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid_2",  // <-- this must be unique!
+      "name": "Custom Liquid 2",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid_2",
+          "label": "Second custom liquid block",
+          "info": "Enter Liquid code for this custom block."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.rich-text.blocks.button.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.all.button.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button.button_style.options__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button.button_style.options__2.label"
+            },
+            {
+              "value": "tertiary",
+              "label": "t:sections.all.button.button_style.options__3.label"
+            }
+          ],
+          "default": "primary",
+          "label": "t:sections.all.button.button_style.label"
         }
       ]
     },
