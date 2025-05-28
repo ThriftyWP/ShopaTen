@@ -48,7 +48,7 @@
     {% endif %}"
   id ="{{ section.settings.section_id }}"
 >
-  <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}%; margin-inline: auto;">
+  <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}px; margin-inline: auto;">
     <style>
       @media (max-width: 749px) {
         #shopify-section-{{ section.id }} .rich-text__blocks {
@@ -67,13 +67,14 @@
           </div>
         {%- when 'heading' -%}
           <{{ block.settings.heading_level }}
-            class="rich-text__heading title--section {% if block.settings.heading_size == 'medium' %}h3{% else %}h2{% endif %}"
-            {{ block.shopify_attributes }}
+            class="rich-text__heading title--section {% if block.settings.heading_size == 'medium' %}h3{% else %}h2{% endif %}" 
+            {{ block.shopify_attributes }} 
+            style="max-width: 100%;"
           >
             {{ block.settings.heading }}
           </{{ block.settings.heading_level }}>
         {%- when 'text' -%}
-          <div class="rich-text__text" {{ block.shopify_attributes }} style="max-width: {{ section.settings.content_max_width }}%;">
+          <div class="rich-text__text" {{ block.shopify_attributes }} style="max-width: 100%;">
             {{ block.settings.text }}
           </div>
         {%- when 'button' -%}
@@ -131,16 +132,16 @@
     {
       "type": "range",
       "id": "content_max_width",
-      "label": "Content max width (%)",
-      "min": 30,
-      "max": 90,
-      "step": 5,
-      "default": 50
+      "label": "Content max width (px)",
+      "min": 300,
+      "max": 2000,
+      "step": 50,
+      "default": 900
     },
     {
       "type": "range",
       "id": "content_max_width_mobile",
-      "label": "Content max width (mobile, px)",
+      "label": "Content max width (mobile, %)",
       "min": 50,
       "max": 100,
       "step": 5,
