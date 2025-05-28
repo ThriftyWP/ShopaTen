@@ -102,7 +102,11 @@
     {% endstyle %}
 {% endif %}
 
-<div class="image-with-text color-{{ section.settings.color_scheme }} background section-{{ section.id }}-padding {{  section.settings.section_class }} ">
+<div class="image-with-text color-{{ section.settings.color_scheme }} background section-{{ section.id }}-padding {{  section.settings.section_class }} "
+  style="
+  {% if section.settings.custom_background_color != blank %}
+    background-color: {{ section.settings.custom_background_color }};
+  {% endif %}">
   <div class="container">
     {% render 'section-text', section: section, class: 'image-with-text', text_align: section.settings.text_align, heading_level: section.settings.heading_level %}
 
@@ -431,6 +435,13 @@
       "id": "color_scheme",
       "default": "background-1",
       "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "color",
+      "id": "custom_background_color",
+      "label": "Custom background color (overrides color scheme)",
+      "default": "#fff",
+      "info": "Leave blank to use color scheme + background choice instead."
     },
     {
 			"type": "text",
