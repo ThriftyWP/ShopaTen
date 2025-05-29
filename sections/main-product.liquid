@@ -50,10 +50,24 @@
 
 {%- style -%}
   {% render 'section-padding' %}
+  .hamilton-info a.button.button--primary.focus-inset {
+    color: #CC0063;
+    background: none;
+    font-size: xx-large;
+    padding: 0;
+    justify-content: start;
+    border-bottom: 1px solid #0F1E2D;
+    border-radius: 0;
+    padding-bottom: 1rem;
+  }
+  .hamilton-info svg.icon.icon-button-arrow {
+      width: 3.5rem;
+      height: 3.5rem;
+  }
 {%- endstyle -%}
 
 <section id="MainProduct-{{ section.id }}" data-section="{{ section.id }}" class="section-{{ section.id }}-padding">
-  <div class="product {% if product.media.size > 0 %}row{% else %}product--no-media{% endif %} product--{% if section.settings.gallery_type == 'slider_previews' %}slider-previews{% elsif section.settings.gallery_type == 'slider_bullets' %}slider-bullets{% elsif section.settings.gallery_type == 'stacked_gallery' %}stacked-gallery{% elsif section.settings.gallery_type == 'grid_gallery' %}grid-gallery{% endif %} container">
+  <div class="product {% if product.media.size > 0 %}row{% else %}product--no-media{% endif %} product--{% if section.settings.gallery_type == 'slider_previews' %}slider-previews{% elsif section.settings.gallery_type == 'slider_bullets' %}slider-bullets{% elsif section.settings.gallery_type == 'stacked_gallery' %}stacked-gallery{% elsif section.settings.gallery_type == 'grid_gallery' %}grid-gallery{% endif %} container {{ section.settings.section_class }}">
     <div
       class="
         product__outer product__outer--{% if section.settings.gallery_type == 'slider_previews' %}slider-previews{% elsif section.settings.gallery_type == 'slider_bullets' %}slider-bullets{% elsif section.settings.gallery_type == 'stacked_gallery' %}stacked-gallery{% elsif section.settings.gallery_type == 'grid_gallery' %}grid-gallery{% endif %}
@@ -489,6 +503,19 @@
                 >
                   {% if block.settings.description != blank %}
                     {{- block.settings.description | escape -}}
+                  {% else %}
+                    {{- product.description -}}
+                  {% endif %}
+                </div>
+              {% endif %}
+            {%- when 'description_2' -%}
+              {% if product.description != blank or block.settings.description != blank %}
+                <div
+                  class="product__description {% if block.settings.description_2 == blank and product.description != blank %} rte {% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {% if block.settings.description_2 != blank %}
+                    {{- block.settings.description_2 | escape -}}
                   {% else %}
                     {{- product.description -}}
                   {% endif %}
@@ -1529,6 +1556,11 @@
       "info": "t:sections.main-product.settings.header.info"
     },
     {
+			"type": "text",
+			"id": "section_class",
+			"label": "Section Class"
+		},
+    {
       "type": "select",
       "id": "desktop_alignment",
       "options": [
@@ -1745,6 +1777,19 @@
         {
           "type": "text",
           "id": "description",
+          "label": "t:sections.all.text.label",
+          "info": "t:sections.main-product.blocks.description.settings.text.info"
+        }
+      ]
+    },
+    {
+      "type": "description_2",
+      "name": "Description 2",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "description_2",
           "label": "t:sections.all.text.label",
           "info": "t:sections.main-product.blocks.description.settings.text.info"
         }
