@@ -60,8 +60,13 @@
   .targa-text-text .image-banner__buttons {
       align-items: center;
       width: 100%;
-      justify-content: center;
+      justify-content: flex-start;
       display: flex;
+  }
+  @media screen and (max-width:749px) {
+    .targa-text-text .image-banner__buttons {
+      justify-content: center;
+    }
   }
 
   .targa-text-text a.image-banner__button.button.button--simple.button--arrow.focus-inset {

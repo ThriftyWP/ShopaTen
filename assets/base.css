@@ -6893,3 +6893,10 @@ h3, h4, h5, h6 {
 .product__main nav.breadcrumb.breadcrumb__desktop {
   display: none;
 }
+shop-follow-button {
+  display: none;
+}
+.swiper-button-prev.focus-inset, .swiper-button-next.focus-inset {
+  height: 40px;
+  width: 40px;
+}
