@@ -51,7 +51,12 @@
         background: none;
     }
     @media screen and (max-width: 749px) {
-        .image-banner .banner .banner__media {
+      .cta-banner-icon-text {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+      }  
+      .image-banner .banner .banner__media {
             position: absolute;
         }
 
@@ -67,6 +72,8 @@
         }
         .cta-banner__content.cta-banner__content--inline {
           flex-direction: column;
+          align-items: start;
+          padding: 3rem 0;`
         }
     }
     .cta-banner__button {
