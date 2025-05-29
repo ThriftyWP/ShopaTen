@@ -249,12 +249,15 @@
 
                   <div class="step__image step__image--{{ section.settings.image_ratio }}"
                     {% if section.settings.image_ratio == 'adapt' %} style = "padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;" {% endif %}>
+                    {% assign style_string = 'object-fit: ' | append: block.settings.fit | append: '; width: 100%; height: 100%;' %}
                     {{
                       block.settings.image
                       | image_url: width: block.settings.image.width
-                      | image_tag: loading: 'lazy', 
-                      sizes: sizes, 
-                      widths: '360, 550, 710, 1200, 1600, 1800, 1920'
+                      | image_tag:
+                          loading: 'lazy',
+                          sizes: sizes,
+                          widths: '360, 550, 710, 1200, 1600, 1800, 1920',
+                          style: style_string
                     }}
                   </div>
                 {% endif %}
@@ -1357,6 +1360,18 @@
             "type": "image_picker",
             "id": "image",
             "label": "t:sections.all.image.label"
+          },{
+            "type": "select",
+            "id": "fit",
+            "label": "Image fit",
+            "default": "cover",
+            "options": [
+              { "value": "cover", "label": "Cover" },
+              { "value": "contain", "label": "Contain" },
+              { "value": "fill", "label": "Fill" },
+              { "value": "none", "label": "None" },
+              { "value": "scale-down", "label": "Scale down" }
+            ]
           },
           {
             "type": "text",
