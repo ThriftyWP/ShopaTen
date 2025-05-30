@@ -110,9 +110,9 @@
 		}
 	}
 	@media screen and (max-width: 749px) {
-		.targa-multicolumn-bg-image {
+		/* .targa-multicolumn-bg-image {
             display: none;
-        }
+        } */
 	}
 	
 {% endstyle %}
@@ -171,6 +171,18 @@
 										>
 											<i
 												class='icon icon-pack icon-{{ block.settings.icon }} {% if section.settings.icon_style == 'colored' and block.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}'
+											></i>
+										</div>
+									{%- endif -%}
+									{%- if block.settings.icon_fa != blank -%}
+										<div
+											class='
+												multicolumn-card__image-wrapper multicolumn-card__image-wrapper--icon multicolumn-card__image-wrapper--{{- section.settings.icon_size }} {% if section.settings.box_shadow %}multicolumn-card__image-wrapper--shadow
+												{% endif %} multicolumn-card__image-wrapper--{{- section.settings.icon_style }} multicolumn-card__image-wrapper--{{- block.settings.icon_fill_type }} color-{{ block.settings.icon_color_scheme }}
+											'
+										>
+											<i
+												class='icon {{ block.settings.icon_fa }} {% if section.settings.icon_style == 'colored' and block.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}'
 											></i>
 										</div>
 									{%- endif -%}
@@ -321,6 +333,18 @@
 									>
 										<i
 											class='icon icon-pack icon-{{ block.settings.icon }} {% if section.settings.icon_style == 'colored' and block.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}'
+										></i>
+									</div>
+								{%- endif -%}
+								{%- if block.settings.icon_fa != blank -%}
+									<div
+										class='
+											multicolumn-card__image-wrapper multicolumn-card__image-wrapper--icon multicolumn-card__image-wrapper--{{- section.settings.icon_size }} {% if section.settings.box_shadow %}multicolumn-card__image-wrapper--shadow
+											{% endif %} multicolumn-card__image-wrapper--{{- section.settings.icon_style }} multicolumn-card__image-wrapper--{{- block.settings.icon_fill_type }} color-{{ block.settings.icon_color_scheme }}
+										'
+									>
+										<i
+											class='icon {{ block.settings.icon_fa }} {% if section.settings.icon_style == 'colored' and block.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}'
 										></i>
 									</div>
 								{%- endif -%}
@@ -534,11 +558,11 @@
 			  { "value": "contain", "label": "Contain" },
 			  { "value": "cover", "label": "Cover" },
 			  { "value": "auto", "label": "Auto" },
-			  { "value": "150%", "label": "20%" },
-			  { "value": "200%", "label": "30%" },
-			  { "value": "300%", "label": "40%" },
-			  { "value": "300%", "label": "50%" },
-			  { "value": "300%", "label": "60%" }
+			  { "value": "20%", "label": "20%" },
+			  { "value": "30%", "label": "30%" },
+			  { "value": "40%", "label": "40%" },
+			  { "value": "50%", "label": "50%" },
+			  { "value": "60%", "label": "60%" }
 			]
 		},
 		{
@@ -666,6 +690,10 @@
 				{
 					"value": "none",
 					"label": "t:sections.all.icon_pack.options__1.label"
+				},
+				{
+					"value": "government",
+					"label": "t:sections.all.icon_pack.options.government.label"
 				},
 				{
 					"value": "arrow-bar",
@@ -1568,6 +1596,12 @@
 			"name": "t:sections.multicolumn.blocks.column.name",
 			"settings": [
 				{
+					"type": "text",
+					"id": "icon_fa",
+					"label": "Font Awesome Icon Class (e.g. fa-solid fa-gavel)",
+					"info": "fa-hand-holding-medical, fa-building-columns, fa-school, fa-building" 
+				  },
+				  {
 					"type": "select",
 					"id": "icon",
 					"options": [

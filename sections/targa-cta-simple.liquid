@@ -10,7 +10,7 @@
       @media (max-width:749px) {
         .description-inline .cta-banner__content--inline .cta-banner__text {
           flex-direction: column;
-      } 
+        }
       }
       @media (min-width:749px) {
         .description-inline .cta-banner__content--inline {
@@ -24,8 +24,13 @@
         align-items: center;
         gap: 2rem;
       } 
+
+    .cta-banner__content--inline i.icon {
+        margin-bottom: auto !important;
+        margin-right: 3rem;
+    }
     .cta-banner__icon {
-    flex-shrink: 0;
+      flex-shrink: 0;
     }
 
     .cta-banner__text {
@@ -43,7 +48,7 @@
     .cta-banner__content--inline {
         width: 100%;
     }
-
+    
     .cta-banner-icon-text .cta-banner__icon.image-banner__icon--large.image-banner__icon--colored.image-banner__icon--gradient {
         margin-right: 3rem;
     }
@@ -55,7 +60,13 @@
         display: flex;
         flex-direction: column;
         align-items: start;
-      }  
+      } 
+      .cta-banner__content--inline i.icon {
+            margin-bottom: 2rem !important;
+        }
+      .cta-simple .image-banner__wrapper {
+        padding: 4rem 2rem;
+      } 
       .image-banner .banner .banner__media {
             position: absolute;
         }
@@ -315,6 +326,13 @@
                 <i class="icon icon-pack icon-{{ section.settings.icon }} {% if section.settings.icon_style == 'colored' and section.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}"></i>
             </div>
             {% endif %}
+            {%- if section.settings.icon_fa != blank -%}
+              <div
+                class="cta-banner__icon image-banner__icon--{{ section.settings.icon_size }} {% if section.settings.box_shadow %}image-banner__icon--shadow{% endif %} image-banner__icon--{{ section.settings.icon_style }} image-banner__icon--{{ section.settings.icon_fill_type }} color-{{ section.settings.icon_color_scheme }}"
+              >
+                  <i class="icon {{ section.settings.icon_fa }} {% if section.settings.icon_style == 'colored' and section.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}"></i>
+              </div>
+            {%- endif -%}
     
             <div class="cta-banner__text">
                 {% if section.settings.subheading != blank %}
@@ -364,6 +382,13 @@
           <i class="icon icon-pack icon-{{ section.settings.icon }} {% if section.settings.icon_style == 'colored' and section.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}"></i>
         </div>
       {% endif %}
+      {%- if section.settings.icon_fa != blank -%}
+        <div
+          class="cta-banner__icon image-banner__icon--{{ section.settings.icon_size }} {% if section.settings.box_shadow %}image-banner__icon--shadow{% endif %} image-banner__icon--{{ section.settings.icon_style }} image-banner__icon--{{ section.settings.icon_fill_type }} color-{{ section.settings.icon_color_scheme }}"
+        >
+            <i class="icon {{ section.settings.icon_fa }} {% if section.settings.icon_style == 'colored' and section.settings.icon_fill_type == 'gradient' %} text-gradient {% endif %}"></i>
+        </div>
+      {%- endif -%}
   
       {% if section.settings.subheading != blank %}
         <div class="image-banner__subheading {{ section.settings.subheading_style }}">
@@ -572,6 +597,12 @@
     "id": "overlay_color",
     "label": "Overlay color",
     "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "icon_fa",
+      "label": "Font Awesome Icon Class (e.g. fa-solid fa-gavel)",
+      "info": "fa-hand-holding-medical, fa-building-columns, fa-school, fa-building"
     },
     {
       "type": "select",
