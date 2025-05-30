@@ -14,10 +14,8 @@
         align-items: {{ section.settings.section_align }};
         gap: {{ section.settings.section_gap }};
         flex-wrap: {{ section.settings.section_wrap }};
-        max-width: 1760px;
-        margin: 0 auto;
-        padding-right: 6.4rem;
-        padding-left: 6.4rem;
+        max-width: 1632px;
+        margin: 0 auto
     ">
     {% for block in section.blocks %}
       {% if block.type == 'container' %}
@@ -322,7 +320,6 @@
     background-color: {{ section.settings.background }};
   }
   .text-with-logos-container {
-    margin-bottom: 30px;
     flex-wrap: wrap;
   }
   .twl-logo {
