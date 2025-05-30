@@ -467,6 +467,7 @@ dir="{% render 'direction' %}"
         }, 100);
       });
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="..." crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
 
   <body class="template-{{ template.name }} template-{{ template | replace: '.', '-' }}">
@@ -562,5 +563,25 @@ dir="{% render 'direction' %}"
         }
       }
     </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener("click", function (e) {
+            const targetID = this.getAttribute("href").substring(1);
+            const targetEl = document.getElementById(targetID);
+    
+            if (targetEl) {
+              e.preventDefault();
+              targetEl.scrollIntoView({
+                behavior: "smooth"
+              });
+    
+              // Optional: update the URL hash without jumping
+              history.pushState(null, null, `#${targetID}`);
+            }
+          });
+        });
+      });
+    </script>    
   </body>
 </html>
