@@ -1,0 +1,8 @@
+[
+    { "value": "none", "label": "None" },
+    { "value": "fa-solid fa-hand-holding-medical", "label": "Hand Holding Medical" },
+    { "value": "fa-solid fa-building-columns", "label": "Government" },
+    { "value": "fa-solid fa-school", "label": "School" },
+    { "value": "fa-regular fa-school", "label": "School" },
+    { "value": "fa-solid fa-building", "label": "Building" }
+]
