@@ -63,6 +63,25 @@
   .hamilton-info svg.icon.icon-button-arrow {
       width: 3.5rem;
       height: 3.5rem;
+      transition: transform 0.3s ease;
+  }
+  .hamilton-info a.button:hover svg.icon.icon-button-arrow {
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+  } 
+  .shopify-payment-button {
+    display: none;
+  }
+
+  .installment-wrapper {
+      display: none;
+  }
+  .prod-includes p:not(:last-child) {
+    border-bottom: 2px solid #D3E1EE;
+    padding-bottom: 10px;
+  }
+  .product__main nav.breadcrumb.breadcrumb__desktop {
+    display: none;
   }
 {%- endstyle -%}
 
@@ -390,6 +409,18 @@
                 {% endif %}
               </div>
 
+            {% when 'subscription_product' %}
+            
+              {% assign sub_product = product.metafields.custom.subscription.value %}
+              {% if sub_product %}
+                <div class="subscription-block">
+                  <a href="{{ sub_product.url }}">{{ sub_product.title }}</a>
+                  <p>Price: {{ sub_product.price | money }}</p>
+                </div>
+              {% else %}
+                <p>No subscription product available.</p>
+              {% endif %}
+
             {%- when 'title' -%}
               <div
                 class="
@@ -502,9 +533,9 @@
                   {{ block.shopify_attributes }}
                 >
                   {% if block.settings.description != blank %}
-                    {{- block.settings.description | escape -}}
+                    {{- block.settings.description }}
                   {% else %}
-                    {{- product.description -}}
+                    {{- product.description | escape -}}
                   {% endif %}
                 </div>
               {% endif %}
@@ -809,6 +840,22 @@
                     {%- if gift_card_recipient_feature_active -%}
                       {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
                     {%- endif -%}
+                    {% comment %} Targa add enroll checkbox {% endcomment %}
+                    {% comment %} {% if product.handle == 'iptty' %}
+                      <label style="display:block;margin-top:1em;">
+                        <input type="checkbox" id="addSupport" data-support-variant-id="50810449920313">
+                        Enroll in annual support for ipTTY ($100/year/license)
+                      </label>
+                    {% elsif product.handle == 'accessaphone' %}
+                      <label style="display:block;margin-top:1em;">
+                        <input type="checkbox" id="addSupport" data-support-variant-id="50810449920313">
+                        Enroll in annual support for Accessaphone ($500/year/license)
+                      </label>
+                    {% endif %}                 {% endcomment %}
+                    <div class="field">
+                      <input type="checkbox" id="auto-renewal" name="attributes[Auto-Renewal]" value="Yes">
+                      <label for="auto-renewal">Enroll in annual auto-renewal for support ($100/license/year)</label>
+                    </div>
 
                     <div class="product-form__buttons">
                       <div class="product-form__buttons-row">
@@ -915,7 +962,48 @@
                   {%- endform -%}
                 </product-form>
               </div>
-
+              {% comment %} Targa script to add support product {% endcomment %}
+              <script> 
+                document.addEventListener("DOMContentLoaded", function () {
+                  const form = document.querySelector("form[action^='/cart/add']");
+                  const checkbox = document.getElementById("addSupport");
+              
+                  if (form && checkbox) {
+                    form.addEventListener("submit", function (e) {
+                      if (checkbox.checked) {
+                        e.preventDefault();
+              
+                        const mainProduct = new FormData(form);
+                        const supportProductId = checkbox.dataset.supportVariantId;
+              
+                        fetch('/cart/clear.js', { method: 'POST' }) // Optional: start clean
+                          .then(() => {
+                            // Add both products
+                            return fetch('/cart/add.js', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                items: [
+                                  {
+                                    id: parseInt(mainProduct.get('id')),
+                                    quantity: parseInt(mainProduct.get('quantity') || 1)
+                                  },
+                                  {
+                                    id: parseInt(supportProductId),
+                                    quantity: parseInt(mainProduct.get('quantity') || 1)
+                                  }
+                                ]
+                              })
+                            });
+                          })
+                          .then(() => window.location.href = '/cart')
+                          .catch(error => console.error('Add to cart failed:', error));
+                      }
+                    });
+                  }
+                });
+              </script>
+              
             {% when 'text_with_icon' %}
               <div class="product__text-icons" {{ block.shopify_attributes }}>
                 <div class="product__text-icons-wrapper">
@@ -1733,6 +1821,12 @@
       ]
     },
     {
+      "type": "subscription_product",
+      "name": "Subscription Product",
+      "limit": 1,
+      "settings": []
+    },
+    {
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
       "limit": 1,
@@ -1772,10 +1866,10 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1,
+      "limit": 2,
       "settings": [
         {
-          "type": "text",
+          "type": "richtext",
           "id": "description",
           "label": "t:sections.all.text.label",
           "info": "t:sections.main-product.blocks.description.settings.text.info"
@@ -1783,7 +1877,7 @@
       ]
     },
     {
-      "type": "description_2",
+      "type": "description_2", //Targa add description 2
       "name": "Description 2",
       "limit": 1,
       "settings": [
@@ -2959,7 +3053,7 @@
       ]
     },
     {
-      "type": "custom_liquid_2",  // <-- this must be unique!
+      "type": "custom_liquid_2",  // Targa add custom liquid 2 block
       "name": "Custom Liquid 2",
       "settings": [
         {
@@ -2971,7 +3065,7 @@
       ]
     },
     {
-      "type": "button",
+      "type": "button", //Targa add button block
       "name": "t:sections.rich-text.blocks.button.name",
       "limit": 1,
       "settings": [

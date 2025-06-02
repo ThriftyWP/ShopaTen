@@ -6887,16 +6887,18 @@ h2 {
 h3, h4, h5, h6 {
   color: var(--color-heading-h3-6, var(--color-foreground-title)) !important;
 }
-.prod-includes p:not(:last-child) {
-  border-bottom: 2px solid #D3E1EE;
-}
-.product__main nav.breadcrumb.breadcrumb__desktop {
-  display: none;
-}
 shop-follow-button {
   display: none;
 }
 .swiper-button-prev.focus-inset, .swiper-button-next.focus-inset {
   height: 40px;
   width: 40px;
+}
+.button {
+  padding: 0 18px;
+  min-height: inherit;
+  min-height: 42px;
+}
+.container {
+  max-width: 1440px;
 }

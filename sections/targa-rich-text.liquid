@@ -35,81 +35,100 @@
   .about-contact h5 {
     margin-bottom: 1rem;
   }
+  .rich-text__blocks.container {
+    z-index: 10;
+    position: relative;
+  }
+  #Banner-{{ section.id }}.banner .banner__overlay {
+    {% if section.settings.overlay_color != blank %}
+        background-color: {{ section.settings.overlay_color }};
+        opacity: {{ section.settings.opacity_overlay }};
+    {% else %}
+        background-color: rgba(var(--color-overlay), {{ section.settings.opacity_overlay }});
+    {% endif %}
+  }
+
 {%- endstyle -%}
 
-<div class="rich-text  
-  {% if section.settings.full_width %}rich-text--full-width{% else %}container{% endif %}
-  rich-text--align-{{ section.settings.alignment }}
-  color-{{ section.settings.color_scheme }}
-  background-choice-{{ section.settings.background_choice }} {{ section.settings.section_class }}"
-  style="
-    {% if section.settings.custom_background_color != blank %}
-      background-color: {{ section.settings.custom_background_color }};
-    {% endif %}"
-  id ="{{ section.settings.section_id }}"
->
-  <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}px; margin-inline: auto;">
-    <style>
-      @media (max-width: 749px) {
-        #shopify-section-{{ section.id }} .rich-text__blocks {
-          max-width: {{ section.settings.content_max_width_mobile }}% !important;
+<div class="targa-multicolumn-wrapper relative">
+	{%- if section.settings.background_image != blank -%}
+	  <div class="targa-multicolumn-bg-image"
+		style="background-image: url({{ section.settings.background_image | image_url }}); background-position: {{ section.settings.background_image_position }}; background-size: {{ section.settings.background_image_size }};">
+	  </div>
+	{%- endif -%}
+  <div class="rich-text  
+    {% if section.settings.full_width %}rich-text--full-width{% else %}container{% endif %}
+    rich-text--align-{{ section.settings.alignment }}
+    color-{{ section.settings.color_scheme }}
+    background-choice-{{ section.settings.background_choice }} {{ section.settings.section_class }}"
+    style="
+      {% if section.settings.custom_background_color != blank %}
+        background-color: {{ section.settings.custom_background_color }};
+      {% endif %}"
+    id ="{{ section.settings.section_id }}"
+  >
+    <div class="rich-text__blocks {% if section.settings.full_width %}container{% endif %} section-{{ section.id }}-padding" style="max-width: {{ section.settings.content_max_width }}px; margin-inline: auto;">
+      <style>
+        @media (max-width: 749px) {
+          #shopify-section-{{ section.id }} .rich-text__blocks {
+            max-width: {{ section.settings.content_max_width_mobile }}% !important;
+          }
         }
-      }
-    </style>    
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'subheading' -%}
-          <div
-            class="rich-text__subheading subtitle"
-            {{ block.shopify_attributes }}
-          >
-            {{ block.settings.subheading | escape }}
-          </div>
-        {%- when 'heading' -%}
-          <{{ block.settings.heading_level }}
-            class="rich-text__heading title--section {% if block.settings.heading_size == 'medium' %}h3{% else %}h2{% endif %}" 
-            {{ block.shopify_attributes }} 
-            style="max-width: 100%;"
-          >
-            {{ block.settings.heading }}
-          </{{ block.settings.heading_level }}>
-        {%- when 'text' -%}
-          <div class="rich-text__text" {{ block.shopify_attributes }} style="max-width: 100%;">
-            {{ block.settings.text }}
-          </div>
-        {%- when 'button' -%}
-          <a
-            {% if block.settings.button_link == blank %}
-              aria-disabled="true"
-            {% else %}
-              href="{{ block.settings.button_link }}"
-            {% endif %}
-            class="button button--{{ block.settings.button_style }} focus-inset"
-            {{ block.shopify_attributes }}
-          >
-            {{ block.settings.button_label | escape }}
-          </a>
-        {%- when 'image' -%}
-          <div class="rich-text__image" {{ block.shopify_attributes }}>
-            <img
-              src="{{ block.settings.image | image_url: width: 1600 }}"
-              alt="{{ block.settings.alt | escape }}"
-              loading="lazy"
-              class="rich-text__image-media"
-              style="object-fit: {{ block.settings.fit }};"
-              width="100%"
-              height="auto"
+      </style>    
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'subheading' -%}
+            <div
+              class="rich-text__subheading subtitle"
+              {{ block.shopify_attributes }}
             >
-          </div>
-        {%- when 'custom_liquid' -%}
-          <div class="rich-text__custom-liquid body-large" {{ block.shopify_attributes }} style="max-width: {{ section.settings.content_max_width }}%;">
-            {{ block.settings.custom_liquid }}
-          </div>               
-      {%- endcase -%}
-    {%- endfor -%}
+              {{ block.settings.subheading | escape }}
+            </div>
+          {%- when 'heading' -%}
+            <{{ block.settings.heading_level }}
+              class="rich-text__heading title--section {% if block.settings.heading_size == 'medium' %}h3{% else %}h2{% endif %}" 
+              {{ block.shopify_attributes }} 
+              style="max-width: 100%;"
+            >
+              {{ block.settings.heading }}
+            </{{ block.settings.heading_level }}>
+          {%- when 'text' -%}
+            <div class="rich-text__text" {{ block.shopify_attributes }} style="max-width: 100%;">
+              {{ block.settings.text }}
+            </div>
+          {%- when 'button' -%}
+            <a
+              {% if block.settings.button_link == blank %}
+                aria-disabled="true"
+              {% else %}
+                href="{{ block.settings.button_link }}"
+              {% endif %}
+              class="button button--{{ block.settings.button_style }} focus-inset"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.button_label | escape }}
+            </a>
+          {%- when 'image' -%}
+            <div class="rich-text__image" {{ block.shopify_attributes }}>
+              <img
+                src="{{ block.settings.image | image_url: width: 1600 }}"
+                alt="{{ block.settings.alt | escape }}"
+                loading="lazy"
+                class="rich-text__image-media"
+                style="object-fit: {{ block.settings.fit }};"
+                width="100%"
+                height="auto"
+              >
+            </div>
+          {%- when 'custom_liquid' -%}
+            <div class="rich-text__custom-liquid body-large" {{ block.shopify_attributes }} style="max-width: {{ section.settings.content_max_width }}%;">
+              {{ block.settings.custom_liquid }}
+            </div>               
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
-
 {% schema %}
 {
   "name": "Rich Text Targa",
@@ -181,6 +200,59 @@
       "id": "full_width",
       "default": true,
       "label": "t:sections.rich-text.settings.full_width.label"
+    },
+    {
+			"type": "image_picker",
+			"id": "background_image",
+			"label": "Background image (optional)"
+		  },
+		  {
+			"type": "select",
+			"id": "background_image_position",
+			"label": "Background image position",
+			"default": "bottom right",
+			"options": [
+			  { "value": "top left", "label": "Top left" },
+			  { "value": "top center", "label": "Top center" },
+			  { "value": "top right", "label": "Top right" },
+			  { "value": "center left", "label": "Center left" },
+			  { "value": "center center", "label": "Center center" },
+			  { "value": "center right", "label": "Center right" },
+			  { "value": "bottom left", "label": "Bottom left" },
+			  { "value": "bottom center", "label": "Bottom center" },
+			  { "value": "bottom right", "label": "Bottom right" }
+			]
+		},
+		{
+			"type": "select",
+			"id": "background_image_size",
+			"label": "Background image size",
+			"default": "contain",
+			"options": [
+			  { "value": "contain", "label": "Contain" },
+			  { "value": "cover", "label": "Cover" },
+			  { "value": "auto", "label": "Auto" },
+			  { "value": "20%", "label": "20%" },
+			  { "value": "30%", "label": "30%" },
+			  { "value": "40%", "label": "40%" },
+			  { "value": "50%", "label": "50%" },
+			  { "value": "60%", "label": "60%" }
+			]
+		},
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "opacity_overlay",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0,
+      "label": "t:sections.image-banner.settings.opacity_overlay.label"
     },
     {
       "type": "select",

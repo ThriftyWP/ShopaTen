@@ -3,6 +3,11 @@
 
 {%- style -%}
   {% render 'section-padding' %}
+  .committed p:not(:last-child),
+  .committed p:not(:first-child) {
+    border-bottom: 2px solid #D3E1EE;
+    padding-bottom: 10px;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -82,7 +87,7 @@
   id="Hero-{{ section.id }}"
   class="hero section-{{ section.id }}-padding {% if section.settings.layout == 'overlay' and section.settings.header_overlay %} section--has-overlay {% if section.settings.header_transparent %} section--header-light {% endif %} {% endif %}"
 >
-  <div class="{% if section.settings.layout == 'overlay' %}{% if section.settings.full_screen == false %}container{% endif %}{% else %}container{% endif %}">
+  <div class="{% if section.settings.layout == 'overlay' %}{% if section.settings.full_screen == false %}container{% endif %}{% else %}container{% endif %} {{ section.settings.section_class }}">
     <div
       class="
         hero__outer hero__outer--{{ section.settings.layout }} {% if section.settings.layout == 'overlay' %}color-{{ section.settings.color_scheme }}{% endif %} {% if section.settings.layout == 'horizontal' %}hero__outer--{{ section.settings.block_type }}{% endif %}
@@ -422,6 +427,11 @@
     "templates": ["*"]
   },
   "settings": [
+    {
+			"type": "text",
+			"id": "section_class",
+			"label": "Section Class"
+		},
     {
       "type": "select",
       "id": "layout",

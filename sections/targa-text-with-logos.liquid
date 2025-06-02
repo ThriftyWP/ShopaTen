@@ -4,9 +4,12 @@
   Section: Text with Logos Targa
   Description: A modular flexbox-based section with editable containers and logo blocks, inspired by Elementor's container builder.
 {% endcomment %}
+{% style %}
+  {% render 'section-padding' %}
+{% endstyle %}
+<section id="text-with-logos-{{ section.id }}" class="text-with-logos-section section-{{ section.id }}-padding" >
 
-<section id="text-with-logos-{{ section.id }}" class="text-with-logos-section">
-  <div class="text-with-logos-wrapper"
+  <div class="text-with-logos-wrapper container"
     style="
         display: flex;
         flex-direction: {{ section.settings.section_flex_direction }};
@@ -14,12 +17,12 @@
         align-items: {{ section.settings.section_align }};
         gap: {{ section.settings.section_gap }};
         flex-wrap: {{ section.settings.section_wrap }};
-        max-width: 1632px;
+        
         margin: 0 auto
     ">
     {% for block in section.blocks %}
       {% if block.type == 'container' %}
-        <div class="text-with-logos-container color-{{ block.settings.color_scheme }}"
+        <div class="text-with-logos-container color-{{ block.settings.color_scheme }} {{ block.settings.section_class }}"
              data-container-label="{{ block.settings.container_label }}"
              style="
                display: flex;
@@ -130,6 +133,70 @@
           {"value": "wrap", "label": "Wrap"},
           {"value": "nowrap", "label": "No wrap"}
         ]
+      }, 
+      {
+        "type": "select",
+        "id": "padding_top",
+        "options": [
+          {
+            "value": "no-indent",
+            "label": "t:sections.all.section-padding.options__1.label"
+          },
+          {
+            "value": "xs",
+            "label": "t:sections.all.section-padding.options__2.label"
+          },
+          {
+            "value": "s",
+            "label": "t:sections.all.section-padding.options__3.label"
+          },
+          {
+            "value": "m",
+            "label": "t:sections.all.section-padding.options__4.label"
+          },
+          {
+            "value": "l",
+            "label": "t:sections.all.section-padding.options__5.label"
+          },
+          {
+            "value": "xl",
+            "label": "t:sections.all.section-padding.options__6.label"
+          }
+        ],
+        "default": "m",
+        "label": "t:sections.all.section-padding.padding_top.label"
+      },
+      {
+        "type": "select",
+        "id": "padding_bottom",
+        "options": [
+          {
+            "value": "no-indent",
+            "label": "t:sections.all.section-padding.options__1.label"
+          },
+          {
+            "value": "xs",
+            "label": "t:sections.all.section-padding.options__2.label"
+          },
+          {
+            "value": "s",
+            "label": "t:sections.all.section-padding.options__3.label"
+          },
+          {
+            "value": "m",
+            "label": "t:sections.all.section-padding.options__4.label"
+          },
+          {
+            "value": "l",
+            "label": "t:sections.all.section-padding.options__5.label"
+          },
+          {
+            "value": "xl",
+            "label": "t:sections.all.section-padding.options__6.label"
+          }
+        ],
+        "default": "m",
+        "label": "t:sections.all.section-padding.padding_bottom.label"
       }
     ],
     "blocks": [
@@ -137,6 +204,11 @@
         "type": "container",
         "name": "Container",
         "settings": [
+          {
+            "type": "text",
+            "id": "section_class",
+            "label": "Section Class"
+          },
           {
             "type": "text",
             "id": "container_label",
@@ -316,7 +388,7 @@
   
   {% style %}
   .text-with-logos-section {
-    padding: 40px 20px;
+    /* padding: 40px 20px; */
     background-color: {{ section.settings.background }};
   }
   .text-with-logos-container {
@@ -337,4 +409,5 @@
     object-fit: contain;
     display: block;
   }
+  .text-with-logos-container.logos-col-1 {max-width: 560px;}
 {% endstyle %}

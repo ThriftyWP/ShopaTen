@@ -18,6 +18,9 @@
 .key-benefits ul {
     padding-left: 0;
 }
+.multirow-card__image-wrapper--image.multirow-card__image-wrapper--lilwider {
+    aspect-ratio: 5/4;
+}
 {% endstyle %}
 
 <div class="multirow color-{{ section.settings.color_scheme }} background section-{{ section.id }}-padding multirow--{% if section.settings.section_type == 'separators' %}separators{% elsif section.settings.section_type == 'transparent' %}transparent{% elsif section.settings.section_type == 'solid' %}solid{% endif %} {{ section.settings.section_class }}">
@@ -166,6 +169,8 @@
                   when 'portrait'
                     assign image_ratio = 1.4
                   when 'square'
+                    assign image_ratio = 1
+                  when 'lilwider'
                     assign image_ratio = 1
                   else
                     assign image_ratio = 0.5
@@ -1008,7 +1013,11 @@
         {
           "value": "portrait",
           "label": "t:sections.all.aspect_ratio.options__8.label"
-        }
+        },
+        {
+          "value": "lilwider",
+          "label": "5/4"
+        },
       ],
       "default": "landscape",
       "label": "t:sections.all.aspect_ratio.label"

@@ -134,12 +134,17 @@
         gap: 1rem;
         flex-wrap: wrap;
     }
+    .committed .image-banner__buttons {
+      justify-content:  center;
+      margin-top: 3rem;
+    } 
+
 {% endstyle %}
 
 <div class="image-banner {% if section.settings.full_width %}{% else %}container{% endif %}">
   <div
     id="Banner-{{ section.id }}"
-    class="banner banner--{{ section.settings.text_align }} {% if section.settings.full_width %}banner--container{% else %}{% endif %} color-{{ section.settings.color_scheme }} background"
+    class="banner banner--{{ section.settings.text_align }} {% if section.settings.full_width %}banner--container{% else %}{% endif %} color-{{ section.settings.color_scheme }} background  {{ section.settings.section_class }}"
   >
     {%- if image_mobile != blank or image_desktop != blank -%}
       {% liquid
@@ -313,6 +318,11 @@
     "templates": ["*"]
   },
   "settings": [
+    {
+			"type": "text",
+			"id": "section_class",
+			"label": "Section Class"
+		},
     {
       "type": "checkbox",
       "id": "full_width",
