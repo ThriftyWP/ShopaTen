@@ -6869,7 +6869,7 @@ noscript .localization-form__select svg {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'LexendBold', sans-serif !important;
 }
-p {
+p, li {
   font-family: 'AtkinsonRegular', sans-serif !important;
 }
 p a {
