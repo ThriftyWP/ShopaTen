@@ -3,8 +3,7 @@
 
 {%- style -%}
   {% render 'section-padding' %}
-  .committed p:not(:last-child),
-  .committed p:not(:first-child) {
+  .committed p:not(:first-child):not(:last-child) {
     border-bottom: 2px solid #D3E1EE;
     padding-bottom: 10px;
   }
