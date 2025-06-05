@@ -1,0 +1,74 @@
+{% comment %} add-product-block.liquid {% endcomment %}
+{% for addon_metaobject in product.metafields.custom.additional_product.value %}
+    {% assign addon_product = addon_metaobject.ref_product.value %}
+    {% assign sub_product = addon_metaobject.subscription_product.value %}
+  
+    {% if addon_product %}
+      <div class="product-addon-block">
+        {% if block.settings.heading_txt != blank %}
+          <h5>{{ block.settings.heading_txt }}</h5>
+        {% endif %}
+  
+        <p class="text-sm">Support is required for year one. You may opt into an auto-renewing plan below.</p>
+  
+        <label class="addon-checkbox" style="display: flex; align-items: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+          <input
+            type="checkbox"
+            class="addon-checkbox-input"
+            id="one-time-support"
+            data-variant-id="{{ addon_product.variants.first.id }}"
+            checked
+          >
+          <div>
+            <strong>{{ addon_product.title }}</strong> – {{ addon_product.price | money }}
+          </div>
+        </label>
+  
+        {% if sub_product %}
+          <label class="addon-checkbox" style="display: flex; align-items: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
+            <input
+              type="checkbox"
+              class="addon-checkbox-input"
+              id="subscription-support"
+              data-variant-id="{{ sub_product.variants.first.id }}"
+            >
+            <div>
+              <strong>{{ sub_product.title }}</strong> – {{ sub_product.price | money }}/year
+            </div>
+          </label>
+        {% endif %}
+      </div>
+  
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const oneTime = document.querySelector('#one-time-support');
+          const subscription = document.querySelector('#subscription-support');
+  
+          if (!oneTime || !subscription) return;
+  
+          function updateSupport() {
+            if (subscription.checked) {
+              oneTime.checked = false;
+              oneTime.disabled = true;
+            } else {
+              oneTime.checked = true;
+              oneTime.disabled = false;
+            }
+          }
+  
+          subscription.addEventListener('change', updateSupport);
+  
+          if (oneTime) {
+            oneTime.addEventListener('click', (e) => {
+              if (!subscription.checked) {
+                e.preventDefault(); // prevent deselection
+              }
+            });
+          }
+  
+          updateSupport();
+        });
+      </script>
+    {% endif %}
+  {% endfor %}
+  
