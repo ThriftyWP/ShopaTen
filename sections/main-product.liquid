@@ -792,8 +792,8 @@
               {% endif %}
             
           {% comment %} Targa add additional product block {% endcomment %}
-          {% when 'add_product' %}
-            {% render 'add-product-block', block: block, product: product %}       
+            {% when 'add_product' %}
+              {% render 'add-product-block', block: block, product: product %}       
 
             {%- when 'buy_buttons' -%}
               <div class="product__buy-buttons" {{ block.shopify_attributes }}>
@@ -1599,6 +1599,7 @@
   <script type="application/ld+json">
     {{ product | structured_data }}
   </script>
+  
 </section>
 
 {% javascript %}
@@ -3931,75 +3932,3 @@
   ]
 }
 {% endschema %}
-<script>
-  function attachAddonProductHandler() {
-    const form = document.querySelector('form[action^="/cart/add"]');
-    const checkboxes = document.querySelectorAll('.addon-checkbox-input');
-
-    if (!form || checkboxes.length === 0) return;
-    console.log("🧩 Addon script attached");
-
-    document.addEventListener('click', function (e) {
-      const target = e.target.closest('[data-attach-addon]');
-      if (!target) return;
-
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      const form = document.querySelector('form[action^="/cart/add"]');
-      const checkboxes = document.querySelectorAll('.addon-checkbox-input');
-      if (!form || checkboxes.length === 0) return;
-
-      const addonItems = [];
-      const baseFormData = new FormData(form);
-      let quantity = parseInt(baseFormData.get('quantity'), 10);
-      if (isNaN(quantity) || quantity < 1) quantity = 1;
-
-      checkboxes.forEach((checkbox) => {
-        if (checkbox.checked) {
-          const variantId = parseInt(checkbox.dataset.variantId);
-          if (!isNaN(variantId)) {
-            console.log("✅ Add-on selected, variant ID:", variantId);
-            addonItems.push({
-              id: variantId,
-              quantity: quantity
-            });
-          }
-        }
-      });
-
-      const baseProductId = parseInt(baseFormData.get('id'));
-      if (isNaN(baseProductId)) {
-        console.error("❌ Could not parse base product ID");
-        return;
-      }
-
-      const baseProduct = { id: baseProductId, quantity: quantity };
-      const allItems = [baseProduct, ...addonItems];
-
-      console.log("🧪 Submitting to cart with items:", allItems);
-
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: allItems })
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log("🛒 Cart updated:", data);
-          setTimeout(() => {
-            window.location.href = '/cart';
-          }, 300);
-        })
-        .catch(err => console.error("❌ Add to cart failed:", err));
-    });
-  }
-
-  const waitForForm = setInterval(() => {
-    const form = document.querySelector('form[action^="/cart/add"]');
-    if (form) {
-      clearInterval(waitForForm);
-      attachAddonProductHandler();
-    }
-  }, 300);
-</script>

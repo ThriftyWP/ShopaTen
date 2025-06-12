@@ -65,12 +65,7 @@
                   </thead>
 
                   <tbody>
-                    {% assign sorted_items = cart.items | sort: "original_price" | reverse %}
-                    
-                    {% assign sorted_items = priority_items | concat: other_items %}                    
-
-                    {% comment %} {%- for item in cart.items -%} {% endcomment %}
-                    {%- for item in sorted_items -%}
+                    {%- for item in cart.items -%}
                       <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
                         <td class="cart-item__media">
                           {% if item.image %}
@@ -173,9 +168,7 @@
                               {%- endfor -%}
                             </dl>
 
-                            {% if item.selling_plan_allocation %}
-                              <p class="product-option">Renews annually</p>
-                            {% endif %}
+                            <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                           {%- endif -%}
 
                           <ul
@@ -606,43 +599,3 @@
   ]
 }
 {% endschema %}
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    // Update when quantity input changes
-    document.querySelectorAll(".cart-item__quantity input").forEach((input) => {
-      input.addEventListener("change", function (e) {
-        const mainHandles = ["iptty", "accessaphone"];
-        const lineItems = window.cart.items || [];
-
-        fetch("/cart.js")
-          .then((res) => res.json())
-          .then((cart) => {
-            const mainItem = cart.items.find(item =>
-              mainHandles.includes(item.product.handle)
-            );
-
-            if (!mainItem) return;
-
-            const supportItem = cart.items.find(item =>
-              item.product.title.includes(mainItem.product.title) &&
-              item.product.handle !== mainItem.product.handle
-            );
-
-            if (!supportItem) return;
-
-            // Mirror main product quantity to support product
-            fetch("/cart/change.js", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                id: supportItem.key,
-                quantity: mainItem.quantity,
-              }),
-            }).then(() => location.reload());
-          });
-      });
-    });
-  });
-</script>

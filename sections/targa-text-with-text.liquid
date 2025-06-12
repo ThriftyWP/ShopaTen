@@ -83,6 +83,22 @@
   .targa-text-text .image-with-text__columns--right .image-with-text__column:first-of-type {
     border-right: 2px solid rgb(var(--color-border));
   }
+  .why-hamilton .image-with-text__right.text-text-left {
+    padding: 0;
+  }
+
+  .why-hamilton .image-with-text__right {
+      align-items: normal;
+  }
+  .why-hamilton {
+    background: #F0F8FF;
+  }
+  .why-hamilton .image-with-text__right:nth-child(2) {
+    padding: 3rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0px 0px 13px #80808030;
+  }
 {%- endstyle -%}
 
 {% if section.settings.inner_heading_line == 'rounded' %}
@@ -260,7 +276,7 @@
               </div>
             {%- endif -%}
             {%- if section.settings.inner_heading != blank -%}
-              <{{ section.settings.inner_heading_level }} class="image-with-text__inner-heading title--section title--{{ section.settings.inner_heading_line }} h4
+              <{{ section.settings.inner_heading_level }} class="image-with-text__inner-heading title--section title--{{ section.settings.inner_heading_line }} {% if template.suffix == "captioning" %}h2{% else %}h4{% endif %}
                 {% if section.settings.inner_word_break and section.settings.inner_heading_line != 'none' %} title--word_break {% endif %}"
                 style="--color-line-inner: {{ section.settings.inner_line_color }}">
                 {%- if section.settings.inner_heading_image_left != blank -%}
@@ -330,7 +346,7 @@
               </div>
             {%- endif -%}
             {%- if section.settings.inner_heading != blank -%}
-              <{{ section.settings.inner_heading_level }} class="image-with-text__inner-heading title--section title--{{ section.settings.inner_heading_line }} h4
+              <{{ section.settings.inner_heading_level }} class="image-with-text__inner-heading title--section title--{{ section.settings.inner_heading_line }} {% if template.suffix == "captioning" %}h2{% else %}h4{% endif %}
                 {% if section.settings.inner_word_break and section.settings.inner_heading_line != 'none' %} title--word_break {% endif %}"
                 style="--color-line-inner: {{ section.settings.inner_line_color }}">
                 {%- if section.settings.inner_heading_image_right != blank -%}
@@ -346,7 +362,11 @@
                 {{ section.settings.description_right }}
               </div>
             {% endif %}
-
+            {% if section.settings.description != blank %}
+              <div class="image-with-text__text body-large">
+                {{ section.settings.description_right_html }}
+              </div>
+            {% endif %}
             {%- assign right_blocks = section.blocks | where: 'type', 'right_column' -%}
             {%- if right_blocks.size > 0 -%}
               <div class="image-with-text__columns image-with-text__columns--right">
@@ -1268,6 +1288,11 @@
       "id": "description_right",
       "default": "<p>Description of your company, products, collections, and so on.</p>",
       "label": "Right column description"
+    },
+    {
+      "type": "html",
+      "id": "description_right_html",
+      "label": "Right column html description"
     },
     {
       "type": "select",

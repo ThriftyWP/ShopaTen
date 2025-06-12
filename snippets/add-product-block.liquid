@@ -1,74 +1,161 @@
-{% comment %} add-product-block.liquid {% endcomment %}
-{% for addon_metaobject in product.metafields.custom.additional_product.value %}
-    {% assign addon_product = addon_metaobject.ref_product.value %}
-    {% assign sub_product = addon_metaobject.subscription_product.value %}
+<style>
+  .support-selection-block {
+    padding: 1em 0;
+    margin: 0 !important;
+  }
+  .support-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .support-option input:disabled + div {
+    opacity: 0.6;
+  }
+  .hide {
+    display: none !important;
+  }
+  </style>
+
+<div class="support-selection-block" data-product-handle="{{ product.handle }}">
+  {% comment %} <h5>Support Subscription</h5> {% endcomment %}
+  {% assign product_price = product.price %}
+  {% if product.handle == 'iptty' %}
+    {% assign support_price = 10000 %}
+    {% assign total_price = product.price | plus:  support_price | divided_by: 100  %}
+  {% elsif product.handle == 'accessaphone' %}
+    {% assign support_price = 50000 %}
+    {% assign total_price = product.price | plus: support_price | divided_by: 100  %}
+  {% endif %}
   
-    {% if addon_product %}
-      <div class="product-addon-block">
-        {% if block.settings.heading_txt != blank %}
-          <h5>{{ block.settings.heading_txt }}</h5>
-        {% endif %}
+  <style>
+    .product__custom-note {
+      font-size: 1.8rem;
+    }
+    span.product__custom-note {
+      margin-top: 1rem;
+    }
+  </style>
+  <div class="custom-price-display">
+    <span class="price price--product">
+      <strong>${{ total_price }}/license</strong>
+      <span class="product__custom-note">(${{product_price | divided_by: 100}} + ${{support_price | divided_by: 100}})<br>Includes one year of required support and maintenance</span>
+    </span>
+  </div>
+  <p class="text-sm">
+    Support and maintenance is included for the first year of the license.
+    You may opt into an auto-renewing plan below.
+  </p>
+
+  <!-- One-Time Checkbox -->
+  <label class="support-option one-time-option hide">
+    <input
+      type="checkbox"
+      class="addon-checkbox-input"
+      id="one-time-support"
+      checked
+    >
+    <div>
+      <strong>1 Year Maintenance + Support</strong><br>${{support_price | divided_by: 100}}/license (Included first year)
+    </div>
+  </label>
+
+  <!-- Subscription Checkbox -->
+  <label class="support-option subscription-option">
+    <input
+      type="checkbox"
+      class="addon-checkbox-input"
+      id="subscription-support"
+    >
+    <div>
+      <strong>Annual Maintenance + Support Subscription</strong><br>${{support_price | divided_by: 100}}/year/license (Auto-renews)
+    </div>
+  </label>
+</div>
   
-        <p class="text-sm">Support is required for year one. You may opt into an auto-renewing plan below.</p>
+
+<script>
+  window.addEventListener('load', function () {
+    const waitForElements = setInterval(() => {
+      const wrapper = document.querySelector('.support-selection-block');
+      const form = document.querySelector('form[action^="/cart/add"]');
+      const submitBtn = document.querySelector('[data-attach-addon]');
+      const oneTime = document.querySelector('#one-time-support');
+      const subscription = document.querySelector('#subscription-support');
   
-        <label class="addon-checkbox" style="display: flex; align-items: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
-          <input
-            type="checkbox"
-            class="addon-checkbox-input"
-            id="one-time-support"
-            data-variant-id="{{ addon_product.variants.first.id }}"
-            checked
-          >
-          <div>
-            <strong>{{ addon_product.title }}</strong> – {{ addon_product.price | money }}
-          </div>
-        </label>
+      if (!wrapper || !form || !submitBtn || (!oneTime && !subscription)) return;
   
-        {% if sub_product %}
-          <label class="addon-checkbox" style="display: flex; align-items: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
-            <input
-              type="checkbox"
-              class="addon-checkbox-input"
-              id="subscription-support"
-              data-variant-id="{{ sub_product.variants.first.id }}"
-            >
-            <div>
-              <strong>{{ sub_product.title }}</strong> – {{ sub_product.price | money }}/year
-            </div>
-          </label>
-        {% endif %}
-      </div>
+      clearInterval(waitForElements);
+      console.log("🧩 Manual addon script active");
   
-      <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          const oneTime = document.querySelector('#one-time-support');
-          const subscription = document.querySelector('#subscription-support');
+      const productHandle = wrapper.dataset.productHandle;
   
-          if (!oneTime || !subscription) return;
+      function updateSupport() {
+        if (subscription?.checked) {
+          oneTime.checked = false;
+          oneTime.disabled = true;
+        } else {
+          oneTime.checked = true;
+          oneTime.disabled = false;
+        }
+      }
   
-          function updateSupport() {
-            if (subscription.checked) {
-              oneTime.checked = false;
-              oneTime.disabled = true;
-            } else {
-              oneTime.checked = true;
-              oneTime.disabled = false;
-            }
+      subscription?.addEventListener('change', updateSupport);
+      updateSupport();
+  
+      submitBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+  
+        const quantityInput = document.querySelector('input[name="quantity"]');
+        const qty = quantityInput ? parseInt(quantityInput.value) : 1;
+  
+        const baseId = parseInt(form.querySelector('input[name="id"]').value);
+        const items = [{ id: baseId, quantity: qty }];
+  
+        let addonVariantId = null;
+        let sellingPlanId = null;
+  
+        if (productHandle === 'iptty') {
+          if (subscription?.checked) {
+            addonVariantId = 50847570035001;
+            sellingPlanId = '691995312441';
+          } else if (oneTime?.checked) {
+            addonVariantId = 50810449920313;
           }
+        }
   
-          subscription.addEventListener('change', updateSupport);
-  
-          if (oneTime) {
-            oneTime.addEventListener('click', (e) => {
-              if (!subscription.checked) {
-                e.preventDefault(); // prevent deselection
-              }
-            });
+        if (productHandle === 'accessaphone') {
+          if (subscription?.checked) {
+            addonVariantId = 50859455840569;
+            sellingPlanId = '692007436601';
+          } else if (oneTime?.checked) {
+            addonVariantId = 50859451416889;
           }
+        }
   
-          updateSupport();
-        });
-      </script>
-    {% endif %}
-  {% endfor %}
+        if (addonVariantId) {
+          const addonItem = { id: addonVariantId, quantity: qty };
+          if (sellingPlanId) addonItem.selling_plan = sellingPlanId;
+          items.push(addonItem);
+        }
+  
+        console.log("🧪 Final quantity:", qty);
+        console.log("🧪 Payload to Shopify:", JSON.stringify({ items }));
+  
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items })
+        })
+          .then(res => res.json())
+          .then(() => window.location.href = '/cart')
+          .catch(err => console.error("❌ Add to cart failed:", err));
+      });
+    }, 200);
+  });
+  </script>
   

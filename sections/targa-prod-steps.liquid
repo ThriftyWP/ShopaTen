@@ -180,6 +180,11 @@
                       {{- block.settings.text -}}
                     </p>
                   {% endif %}
+                  {% if block.settings.description_html != blank %}
+                    <p class="step__text {{ text_size }}">
+                      {{- block.settings.description_html -}}
+                    </p>
+                  {% endif %}
                   {% if block.settings.button_label != blank and block.settings.show_button %}
                     {% render 'button',
                       link: block.settings.button_link,
@@ -217,6 +222,12 @@
                     <p class="step__text {{ text_size }}"
                   style="max-width: 100%;">
                       {{- block.settings.text -}}
+                    </p>
+                  {% endif %}
+                  {% if block.settings.description_html != blank %}
+                    <p class="step__text {{ text_size }}"
+                    style="max-width: 100%;">
+                      {{- block.settings.description_html -}}
                     </p>
                   {% endif %}
                   {% if block.settings.button_label != blank and block.settings.show_button %}
@@ -1389,6 +1400,11 @@
             "type": "richtext",
             "id": "text",
             "label": "t:sections.all.text.label"
+          },
+          {
+            "type": "html",
+            "id": "description_html",
+            "label": "HTML Description"
           },
           {
             "type": "header",
